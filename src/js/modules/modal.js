@@ -1,5 +1,5 @@
 'use strict';
-
+import clearInputs from "./clearInputs";
 
 function workModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
     const trigger = document.body.querySelectorAll(triggerSelector),
@@ -54,6 +54,7 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
             document.body.style.overflow = '';
         });
 
+        clearInputs();
         if(getComputedStyle(modal).display == 'block') {
             modal.style.display = 'none';
             document.body.style.overflow = '';
@@ -62,6 +63,7 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
 
     document.addEventListener('keydown' , e => {
         if(e.key == 'Escape') {
+            clearInputs();
             windows.forEach(item => {
                 item.style.display = 'none';
                 document.body.style.overflow = '';
@@ -75,6 +77,7 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
 
     modal.addEventListener('click', (e) => {
         if(e.target === modal && closeClickOverlay) {
+            clearInputs();
             windows.forEach(item => {
                 item.style.display = 'none';
                 document.body.style.overflow = '';

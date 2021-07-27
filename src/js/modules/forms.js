@@ -1,9 +1,10 @@
 'use strict';
 import checkNumInputs from "./checkNumInputs";
+import clearInputs from "./clearInputs";
 
 const forms = (state) => {
-    const form = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input');
+    const form = document.querySelectorAll('form');
+         
 
     checkNumInputs('input[name="user_phone"]');
 
@@ -24,11 +25,7 @@ const forms = (state) => {
         return await res.text();
     };
 
-    const clearInputs = () => {
-        inputs.forEach(item => {
-            item.value = '';
-        });
-    };
+   
 
     form.forEach(item => {
         item.addEventListener('submit', e =>{
@@ -53,6 +50,12 @@ const forms = (state) => {
                     statusMessage.textContent = message.failure;
                 })
                 .finally(() => {
+                    document.body.children.forEach(item => {
+                        if (item.getAttribute('data-modal') != null) {
+                            item.style.display = 'none';
+                        }
+                    });
+                    document.body.style.overflow = '';
                     clearInputs();
                     setTimeout(() => {
                         statusMessage.remove();   
