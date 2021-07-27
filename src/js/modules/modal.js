@@ -1,14 +1,16 @@
 'use strict';
 import clearInputs from "./clearInputs";
+import calcScroll from "./calcScroll";
 
 function workModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
     const trigger = document.body.querySelectorAll(triggerSelector),
           modal = document.body.querySelector(modalSelector),
           closeBtn = document.body.querySelector(closeSelector),
-          windows = document.querySelectorAll('[data-modal]');
+          windows = document.querySelectorAll('[data-modal]'),
+          scrollWindow = calcScroll();
 
         closeModal(closeBtn, modal, windows, closeClickOverlay);
-        openModal(trigger, modal, windows);
+        openModal(trigger, modal, windows, scrollWindow);
 
     if(modalSelector == '.popup') {
         showModalByTime(modal, 30000);
@@ -23,7 +25,7 @@ function showModalByTime(modal, time) {
     }, time);
 }
 
-function openModal(trigger, modal, windows) {
+function openModal(trigger, modal, windows, scrollWindow) {
     trigger.forEach(item => {
         item.addEventListener('click', (e) => {
             if(e.target) {
@@ -38,6 +40,7 @@ function openModal(trigger, modal, windows) {
             if(getComputedStyle(modal).display == 'none') {
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                document.body.style.marginRight = `${scrollWindow}px`;
             } 
         });
     });
@@ -53,7 +56,8 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
             item.style.display = 'none';
             document.body.style.overflow = '';
         });
-
+        
+        document.body.style.marginRight = `0px`;
         clearInputs();
         if(getComputedStyle(modal).display == 'block') {
             modal.style.display = 'none';
@@ -64,6 +68,7 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
     document.addEventListener('keydown' , e => {
         if(e.key == 'Escape') {
             clearInputs();
+            document.body.style.marginRight = `0px`;
             windows.forEach(item => {
                 item.style.display = 'none';
                 document.body.style.overflow = '';
@@ -78,6 +83,7 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
     modal.addEventListener('click', (e) => {
         if(e.target === modal && closeClickOverlay) {
             clearInputs();
+            document.body.style.marginRight = `0px`;
             windows.forEach(item => {
                 item.style.display = 'none';
                 document.body.style.overflow = '';
@@ -87,5 +93,8 @@ function closeModal(closeBtn, modal, windows, closeClickOverlay) {
         }
     });
 }
+
+
+
 
 export default workModal;
