@@ -30,7 +30,7 @@ const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display
             (target.classList.contains(tabSelector.replace(/\./, '')) ||
         target.parentNode.classList.contains(tabSelector.replace(/\./, '')) )) {
             tab.forEach((item, i) => {
-                console.log(item);
+                
                 if(target == item || target.parentNode == item) {
                     hideTebContent();
                     showTabContent(i);
